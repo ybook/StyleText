@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Transforme textos em estilos copiáveis, direto no navegador."/>
+      
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#050505" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.png" />
+    <title>StyleText</title>
+    
+    <script>
+      (function () {
+        try {
+          var savedTheme = localStorage.getItem("text-transformer-theme");
+          var theme = savedTheme === "light" ? "light" : "dark";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch (error) {
+          document.documentElement.dataset.theme = "dark";
+        }  // created by ybook | https://github.com/ybook
+      })();
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./text-engine.js" defer></script>
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header" aria-label="Cabeçalho">
+        <div class="header-actions">
+          <a
+            class="source-link"
+            href="https://github.com/ybook/StyleText"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            open-source
+          </a>
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            type="button"
+            aria-label="Ativar tema claro"
+            title="Ativar tema claro"
+          >
+            <span class="theme-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <h1 class="sr-only">Transformador de texto</h1>
+
+        <section class="transformer" aria-label="Transformador de texto">
+          <div class="workspace">
+            <div class="input-region">
+              <label class="sr-only" for="sourceText">Texto original</label>
+              <textarea
+                id="sourceText"
+                name="sourceText"
+                rows="4"
+                maxlength="12000"
+                placeholder="Digite alguma coisa..."
+                aria-label="Texto para transformar"
+                autocomplete="off"
+                spellcheck="true"
+              ></textarea>
+
+              <div class="input-footer">
+                <button
+                  class="style-trigger"
+                  id="styleTrigger"
+                  type="button"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-controls="stylePopover"
+                >
+                  <span>Escolher estilo</span>
+                  <span class="style-trigger-value" id="styleTriggerValue">Normal</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="section-divider" aria-hidden="true"></div>
+
+            <div class="result-region">
+              <div class="result-header">
+                <p class="result-label" id="resultLabel">Resultado</p>
+                <button
+                  class="copy-button"
+                  id="copyButton"
+                  type="button"
+                  aria-label="Copiar texto transformado"
+                  title="Copiar"
+                >
+                  <span class="copy-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+
+              <output
+                class="result-text is-example"
+                id="resultText"
+                aria-labelledby="resultLabel"
+              ></output>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div
+      class="style-popover"
+      id="stylePopover"
+      role="listbox"
+      aria-label="Estilos"
+      aria-hidden="true"
+      data-placement="top"
+      inert
+    >
+      <p class="popover-heading">Estilos</p>
+      <div class="style-list" id="styleList"></div>
+    </div>
+
+    <div class="copy-toast" id="copyToast" role="status" aria-live="polite">
+      <span id="copyToastText">Texto copiado</span>
+    </div>
+    
+    <div class="theme-wipe" id="themeWipe" aria-hidden="true"></div>
+  </body>
+</html>
